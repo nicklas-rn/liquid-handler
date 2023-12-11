@@ -1,0 +1,174 @@
+{%block title%}
+<link href="{{url_for('static',filename='css/custom_modules.css')}}" rel="stylesheet">
+{%endblock%}
+
+{% extends "base.html" %}
+{% block content %}
+
+
+<style>
+
+    .syringe{
+        position: relative;
+        left: 75px;
+    }
+
+    .control-panel-button{
+        position: relative;
+        left: 75px;
+    }
+
+    .wellplate{
+        position: relative;
+    }
+
+    .wells-description{
+        position: absolute;
+        display: grid;
+        gap: 10px;
+    }
+
+    .well-description{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 75px;
+        height: 75px;
+    }
+
+    .wells-letters{
+        top: 75px;
+        grid-template-rows: repeat(8, 75px); /* 8 rows */
+    }
+
+    .wells-numbers{
+        left: 75px;
+        grid-template-columns: repeat(12, 75px); /* 12 columns */
+    }
+
+    .wells{
+        position: relative;
+        top: 75px;
+        left: 75px;
+        display: grid;
+        grid-template-rows: repeat(8, 75px); /* 8 rows */
+        grid-template-columns: repeat(12, 75px); /* 12 columns */
+        gap: 10px;
+    }
+
+    .well{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        border: 1px solid black;
+        width: 75px;
+        height: 75px;
+        overflow: hidden;
+    }
+
+    .well-input{
+        width: 65px;
+    }
+
+    .start-button{
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        z-index: 10;
+    }
+
+</style>
+
+<body>
+    <div class="syringe">
+        <input class="syringe-input" id="syringe-volume" type="text" placeholder="Syringe Volume (mL)">
+    </div>
+    <button class="control-panel-button" onclick="showControlPanel()">
+        Open Control Panel
+    </button>
+    <div class="wellplate">
+        <div class="wells-description wells-letters">
+            {% for letter in "ABCDEFGH" %}
+            <p class="well-description">{{letter}}</p>
+            {% endfor %}
+        </div>
+        <div class="wells-description wells-numbers">
+            {% for i in range(12) %}
+            <p class="well-description">{{i + 1}}</p>
+            {% endfor %}
+        </div>
+        <div class="wells wells96">
+            {% for i in range(96) %}
+            <div class="well well96">
+                <input class="well-input well-flowrate" id="well-flowrate-{{i}}" type="text" placeholder="Flowrate (mL/min)">
+                <input class="well-input well-volume" id="well-volume-{{i}}" type="text" placeholder="Volume (µL)">
+            </div>
+            {% endfor %}
+        </div>
+        <button class="start-button" onclick="startRun()">Start Run</button>
+    </div>
+</body>
+
+<script>
+    function startRun(){
+        // Get the syringe volume
+        const syringeVolume = document.getElementById("syringe-volume").value;
+
+        // Create lists for flowrate and volume for each well
+        const wellDataList = [];
+
+        // Loop through each row
+        for (let row = 0; row < 8; row++) {
+            // Get the row letter
+            const rowLetter = String.fromCharCode(65 + row);
+
+            // Create a list for the current row
+            const rowList = [];
+
+            // Loop through each well in the row
+            for (let col = 0; col < 12; col++) {
+                // Get the well flowrate and volume
+                const flowrate = document.getElementById("well-flowrate-" + (row * 12 + col)).value;
+                const volume = document.getElementById("well-volume-" + (row * 12 + col)).value;
+
+                if(volume != ""){
+                    // Add the well to the current row list
+                    rowList.push({ flowrate, volume });
+                }
+            }
+
+            // Add the current row list to the wellDataList
+            wellDataList.push(rowList);
+
+            // Print the row letter and well flowrate and volume
+            console.log("Row: " + rowLetter + ", Well Data: " + JSON.stringify(rowList));
+        }
+
+        // Send WellDataList to the server
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
+        const payload = {
+            'syringe_volume': syringeVolume,
+            'well_data_list': wellDataList,
+        };
+
+        fetch('/syringe_wellplate_start_run', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            console.log(response.status);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    }
+</script>
+
+
+{%endblock%}

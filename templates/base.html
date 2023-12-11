@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Liquid Handler Dashboard</title>
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/media/favicon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://unpkg.com/codeflask/build/codeflask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    {%block title%}{%endblock%}
+</head>
+
+<style>
+    *{
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+
+</style>
+
+<body>
+
+    <main>
+    {%block content%}{%endblock%}
+    </main>
+
+
+</body>
+
+<script>
+
+
+    function showControlPanel(){
+        console.log('show control panel')
+        fetch(`/control_panel`)
+        .then(response => response.text())
+        .then(data => {
+        // Append the overlay content to the body
+        document.body.insertAdjacentHTML('beforeend', data);
+        })
+        .catch(error => console.error('Error fetching overlay content:', error));
+    }
+
+
+    function hideControlPanel(){
+        console.log('hide control panel')
+        document.getElementById("control-panel").remove()
+    }
+
+
+
+    function changeDistance(selector){
+        console.log('change distance')
+
+        fetch(`/change_distance?distance=${selector.value}`, {method: 'POST'})
+        .then(response => console.log(response.status))
+        .catch(error => console.error(error));
+    }
+
+    function move(axis, direction){
+        distance = document.getElementById("controls-distance").value
+        console.log(axis, direction, distance)
+        fetch(`/move?axis=${axis}&direction=${direction}&distance=${distance}`, {method: 'POST'})
+        .then(response => console.log(response.status))
+        .catch(error => console.error(error));
+    }
+
+    function selectPort(selector){
+        console.log(selector.value)
+        fetch(`/select_port?port=${selector.value}`, {method: 'POST'})
+        .then(response => console.log(response.status))
+        .catch(error => console.error(error));
+    }
+
+    function setHome(){
+        fetch(`/set_home`, {method: 'POST'})
+        .then(response => console.log(response.status))
+        .catch(error => console.error(error));
+    }
+
+
+
+    
+</script>
+
+</html>
+

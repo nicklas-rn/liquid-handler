@@ -1,0 +1,122 @@
+<style>
+    .background{
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+
+    .control-panel-window{
+        width: 500px;
+        height: 500px;
+        background-color: white;
+    
+    }
+
+    .control-panel-top{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 20px;
+    }
+
+    .controls{
+        display: flex;
+        align-items: center;
+    }
+
+    .controls-button{
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+    }
+
+    .controls-xy{
+        position: relative;
+        height: 170px;
+        width: 170px;
+        margin-right: 20px;
+    }
+
+    .controls-y1{
+        left: 60px;
+    }
+
+    .controls-x0{
+        top: 60px;
+    }
+
+    .controls-x1{
+        top: 60px;
+        left: 120px;
+    }
+    
+    .controls-y0{
+        left: 60px;
+        top: 120px;
+    }
+
+    .controls-z, .controls-a{
+        position: relative;
+        height: 120px;
+        width: 50px;
+        margin-right: 20px;
+    }
+
+    .controls-z0, .controls-a0{
+        top: 70px;
+    }
+
+</style>
+
+<div class="background" id="control-panel">
+    <div class="control-panel-window">
+        <div class="control-panel-top">
+            <select class="ports-select" onchange="selectPort(this)">
+                {% for port in context.ports %}
+                <option value="{{port.name}}" {%if context.selected_port == port.name%}selected{%endif%}>{{port.name}}</option>
+                {% endfor %}
+            </select>
+            <button class="control-panel-close" onclick="hideControlPanel()">Close</button>
+        </div>
+        <div class="controls">
+            <div class="controls-xy">
+                <button class="controls-button controls-y1" onclick="move('Y', '+')">Y+</button>
+                <button class="controls-button controls-x0" onclick="move('X', '-')">X-</button>
+                <button class="controls-button controls-x1" onclick="move('X', '+')">X+</button>
+                <button class="controls-button controls-y0" onclick="move('Y', '-')">Y-</button>
+            </div>
+            <div class="controls-z">
+                <button class="controls-button controls-z1" onclick="move('Z', '+')">Z+</button>
+                <button class="controls-button controls-z0" onclick="move('Z', '-')">Z-</button>
+            </div>
+            <div class="controls-a">
+                <button class="controls-button controls-a1" onclick="move('A', '+')">A+</button>
+                <button class="controls-button controls-a0" onclick="move('A', '-')">A-</button>
+            </div>
+            <select id="controls-distance" onselect="changeDistance(this)">
+                <option value="0.001">0.001mm</option>
+                <option value="0.005">0.005mm</option>
+                <option value="0.01">0.01mm</option>
+                <option value="0.05">0.05mm</option>
+                <option value="0.1">0.1mm</option>
+                <option value="0.5">0.5mm</option>
+                <option value="1">1mm</option>
+                <option value="5">5mm</option>
+                <option value="10">10mm</option>
+                <option value="20">20mm</option>
+            </select>
+
+        </div>
+        <button class="set-home-button" onclick="setHome()">Set Home</button>
+    </div>
+</div>
