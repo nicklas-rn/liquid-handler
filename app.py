@@ -90,8 +90,8 @@ def select_port():
     #Step idle delay (ms)
     send_gcode('$1=10\r\n')
     #Steps per mm
-    send_gcode('$100=3.9789\r\n')
-    send_gcode('$101=3.9789\r\n')
+    send_gcode('$100=4.9736\r\n')
+    send_gcode('$101=79.578\r\n')
     send_gcode('$102=100\r\n')
     send_gcode('$103=40\r\n')
     #Max rate (mm/min)
@@ -134,28 +134,29 @@ def syringe_wellplate_run(syringe_volume, well_data_list):
     elif syringe_volume == 3:
         syringe_mm_per_μl = 0.00424
     for i, row in enumerate(well_data_list):
-        y = i * 9
+        y = - i * 9
         for j, well in enumerate(row):
-            x = j * 9
-            volume = well['volume']
-            flowrate = well['flowrate']
-            stepper_rate = syringe_mm_per_μl * 1000 * flowrate
-            stepper_distance = volume * syringe_mm_per_μl
-            send_gcode(f'$113={stepper_rate}\r\n')
-            send_gcode(f"G91\r\nG0 X{x} Y{y} Z10\r\nG90\r\n")
-            send_gcode(f"G91\r\nG0 X{x} Y{y} Z0\r\nG90\r\n")
-            send_gcode(f"G91\r\nG0 X{x} Y{y} Z0 A-{stepper_distance}\r\nG90\r\n")
-            send_gcode(f"G91\r\nG0 X{x} Y{y} Z10\r\nG90\r\n")
+            if well['volume'] != '':
+                x = j * 9
+                volume = float(well['volume'])
+                flowrate = float(well['flowrate'])
+                stepper_rate = syringe_mm_per_μl * 1000 * flowrate
+                stepper_distance = volume * syringe_mm_per_μl
+                send_gcode(f'$113={stepper_rate}\r\n')
+                send_gcode(f"G0 X{x} Y{y} Z10\r\n")
+                send_gcode(f"G0 X{x} Y{y} Z0\r\n")
+                send_gcode(f"G0 X{x} Y{y} Z0 A-{stepper_distance}\r\n")
+                send_gcode(f"G0 X{x} Y{y} Z10\r\n")
 
 
 @app.route('/syringe_wellplate_start_run', methods=['POST'])
 def syringe_wellplate_start_run():
     json_payload = request.json
 
-    syringe_volume = json_payload['syringe_volume']
+    syringe_volume = float(json_payload['syringe_volume'])
     well_data_list = json_payload['well_data_list']
     syringe_wellplate_run(syringe_volume, well_data_list)
 
 
-    return send_gcode(command)
+    return jsonify({'success': 'ok'})
 

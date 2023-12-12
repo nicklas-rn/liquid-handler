@@ -132,10 +132,7 @@
                 const flowrate = document.getElementById("well-flowrate-" + (row * 12 + col)).value;
                 const volume = document.getElementById("well-volume-" + (row * 12 + col)).value;
 
-                if(volume != ""){
-                    // Add the well to the current row list
-                    rowList.push({ flowrate, volume });
-                }
+                rowList.push({ flowrate, volume });
             }
 
             // Add the current row list to the wellDataList
