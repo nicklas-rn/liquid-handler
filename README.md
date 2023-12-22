@@ -1,5 +1,5 @@
 # Installation
-Note: This installation is for beginners who do not have programming experience and no intent to modify this software. Consequently, this installation does not use a virtual environment but instead installs programs system-wide.
+Note: This installation is for beginners with few programming experience and no intent to modify this software. Consequently, this installation does not use a virtual environment but instead installs programs system-wide.
 ## 1. Installation of prerequisites
 ### 1.1 Install Git
 Open a terminal window and enter the following command to check if you have Git installed on your system:
@@ -41,3 +41,10 @@ flask run
 ```
 Then, open your browser and open the following domain: http://127.0.0.1:5000
 You're good to go!
+
+# Updating the software
+If other developers have made changes to this software, you can update your version by pulling this repository. To achieve that, first go to the 'liquid-handler' folder in a terminal window, in case you aren't there already. Then, use the following command to pull the new version:
+```
+git pull
+```
+Now, you have the current version on your PC!
