@@ -171,3 +171,7 @@ def syringe_wellplate_start_run():
 
     return jsonify({'success': 'ok'})
 
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
