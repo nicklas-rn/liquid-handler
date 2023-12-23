@@ -13,10 +13,10 @@ Now, perform the same for Python. In a terminal window, enter the following comm
 python --version
 ```
 If Python is installed, this command will display the installed version. Otherwise, go to https://www.python.org/downloads/ and download Python for your operating system.
-### 1.3 Install Flask
-Flask is the web framework that this software is based on. To install it, enter the following command:
+### 1.3 Install Packages
+This software uses multiple Python packages. To install them, enter the following command:
 ```
-pip install flask
+pip install -r requirements.txt
 ```
 ## 2. Installation of this software
 To install this software, you have to clone this repository to your system. First, open a terminal window and go to the folder where you want it installed:
