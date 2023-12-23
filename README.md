@@ -31,7 +31,12 @@ git clone https://github.com/nicklas-rn/liquid-handler
 Now, when you go to the previously specified path in your explorer/finder, you should find a folder with the name liquid-handler. The installation was successful!
 
 # Running the software
-First, go to the folder 'liquid-handler' in a terminal window. To achieve that, open a terminal window and enter the following command:
+First, go to the folder 'liquid-handler' in a terminal window. 
+If you did the installation previously, just type:
+```
+cd liquid-handler
+```
+To go to the folder in a new terminal window, enter the following command:
 ```
 cd path\to\folder\liquid-handler
 ```
