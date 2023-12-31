@@ -12,7 +12,7 @@ Now, perform the same for Python. In a terminal window, enter the following comm
 ```
 python --version
 ```
-If Python is installed, this command will display the installed version. Otherwise, go to https://www.python.org/downloads/ and download Python for your operating system.
+If Python is installed, this command will display the installed version. Otherwise, go to https://www.python.org/downloads/ and download Python for your operating system. Make sure to install version **3.10** or lower.
 ### 1.3 Install Packages
 This software uses multiple Python packages. To install them, enter the following command:
 ```
@@ -23,7 +23,7 @@ To install this software, you have to clone this repository to your system. Firs
 ```
 cd path\to\folder
 ```
-Replace 'path\to\folder' with the respective path to the desired folder.
+Replace 'path\to\folder' with the respective path to the desired folder. Ensure that you **write the path to the folder down** somewhere. You will need it whenever you want to start the software.
 Then, clone this repository to your system with the following command in the same terminal window:
 ```
 git clone https://github.com/nicklas-rn/liquid-handler
@@ -42,7 +42,7 @@ cd path\to\folder\liquid-handler
 ```
 To run the software, enter:
 ```
-flask run
+python app.py
 ```
 Then, open your browser and open the following domain: http://127.0.0.1:5000
 You're good to go!
